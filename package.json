@@ -1,0 +1,35 @@
+{
+  "name": "patient_record_mgmt",
+  "version": "1.0.0",
+  "description": "A system that stores patient information. This system also allows users to get details of all the patients, a particular patient etc. Also provides options to modify/delete patient information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ninadvadujkar/Patient_Record_Mgmt.git"
+  },
+  "keywords": [
+    "Patient",
+    "record",
+    "management",
+    "mgmt",
+    "hospital",
+    "doctor"
+  ],
+  "author": "Ninad U. Vadujkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ninadvadujkar/Patient_Record_Mgmt/issues"
+  },
+  "homepage": "https://github.com/ninadvadujkar/Patient_Record_Mgmt#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parse": "^0.4.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.8",
+    "morgan": "^1.8.2"
+  }
+}
