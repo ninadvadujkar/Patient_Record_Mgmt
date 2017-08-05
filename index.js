@@ -24,6 +24,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
 
+app.use(express.static('public'));
+
 app.use('/api/auth', auth);
 app.use(authMiddleware);
 app.use('/api/patients', patients);
