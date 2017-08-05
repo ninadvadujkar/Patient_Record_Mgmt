@@ -85,9 +85,13 @@ baseEndPoint.post((req, res) => {
 
 let idEndPoint = router.route('/:pId');
 idEndPoint.get((req, res) => {
-	Patient.find({ id: req.params.pId }, (err, patient) => {
+	Patient.findOne({ id: req.params.pId }, (err, patient) => {
 		if(err) {
 			console.log("Failed to get patient!", err);
+			return res.status(404).send(notFoundResp);
+		}
+		if(!patient) {
+			console.log("No such patient");
 			return res.status(404).send(notFoundResp);
 		}
 		console.log("Got patient with id " + req.params.pId);
@@ -108,11 +112,17 @@ idEndPoint.put((req, res) => {
 		details
 	} = req.body;
 	Patient.findOneAndUpdate({ id: req.params.pId }, 
-	{name, age, address, contact, next_appt, medication, medical_condition, details},
+	{name, age, address, contact, next_appt, medication, medical_condition, details, 
+	updated_at: new Date()	
+	},
 	(err, patient) => {
 		if(err) {
 			console.log("Failed to updated patient", err);
 			return res.status(503).send(serviceUnavailableResp);
+		}
+		if(!patient) {
+			console.log("No such patient");
+			return res.status(404).send(notFoundResp);
 		}
 		console.log("Updated patient with id " + req.params.pId);
 		return res.status(200).send(successResp);

@@ -25,11 +25,13 @@
   },
   "homepage": "https://github.com/ninadvadujkar/Patient_Record_Mgmt#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
-    "cookie-parse": "^0.4.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.2",
     "mongoose": "^4.10.8",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "redis": "^2.7.1"
   }
 }
