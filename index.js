@@ -21,7 +21,19 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan('combined'));
 
-let authMiddleware = function(req, res, next) {
+app.use('/api/auth', auth);
+app.use(authMiddleware);
+app.use('/api/patients', patients);
+
+//Test route
+// app.get('/', (req, res) => {
+// 	res.send({
+// 		code: 200,
+// 		message: 'OK'
+// 	});
+// });
+
+function authMiddleware(req, res, next) {
 	// Check for token in body or query or headers
 	let token = req.body.token || req.query.token || req.headers['x-access-token'];
 	let username = req.body.username || req.query.username;
@@ -72,18 +84,6 @@ let authMiddleware = function(req, res, next) {
 		}
 	}
 };
-
-app.use('/api/auth', auth);
-app.use(authMiddleware);
-app.use('/api/patients', patients);
-
-//Test route
-// app.get('/', (req, res) => {
-// 	res.send({
-// 		code: 200,
-// 		message: 'OK'
-// 	});
-// });
 
 app.listen(8081, () => {
 	console.log("Server listening at port 8081");

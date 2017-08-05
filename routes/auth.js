@@ -55,8 +55,8 @@ router.post('/login', (req, res) => {
 	});
 });
 
-router.post('/logout', (req, res) => {
-	User.findOne({ username: req.body.username }, (err, user) => {
+router.get('/logout', (req, res) => {
+	User.findOne({ username: req.query.username }, (err, user) => {
 		if(err) {
 			console.log("Error in finding user!", err);
 			return res.status(503).send({
@@ -71,8 +71,8 @@ router.post('/logout', (req, res) => {
 				message: "User not found"
 			});
 		}
-		let key = "patient::" + req.body.username;
-		redis.del(key, (err, resp) => {
+		let key = "patient::" + req.query.username;
+		client.del(key, (err, resp) => {
 			if(err) {
 				console.log("Failed to delete key");
 				return res.status(500).send({
