@@ -6,15 +6,18 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const patients = require('./routes/patients');
-const auth = require('./routes/auth');
-const config = require('./config/config');
 const jwt = require('jsonwebtoken');
 const redis = require('redis');
-const client = redis.createClient();
 
+const config = require('./config/config');
+const client = redis.createClient(config.redis);
 let secret = config.secret;
-mongoose.connect('mongodb://localhost/prm');
+mongoose.connect(config.mongodb);
+
+// Require routes
+const patients = require('./routes/patients');
+const auth = require('./routes/auth');
+const appointments = require('./routes/appointments');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -24,6 +27,7 @@ app.use(morgan('combined'));
 app.use('/api/auth', auth);
 app.use(authMiddleware);
 app.use('/api/patients', patients);
+app.use('/api/appointments', appointments);
 
 //Test route
 // app.get('/', (req, res) => {
@@ -34,7 +38,7 @@ app.use('/api/patients', patients);
 // });
 
 function authMiddleware(req, res, next) {
-	// Check for token in body or query or headers
+	// Check for token and username in body or query or headers
 	let token = req.body.token || req.query.token || req.headers['x-access-token'];
 	let username = req.body.username || req.query.username;
 	if(token && username) {
@@ -83,7 +87,7 @@ function authMiddleware(req, res, next) {
 			});			
 		}
 	}
-};
+}
 
 app.listen(8081, () => {
 	console.log("Server listening at port 8081");

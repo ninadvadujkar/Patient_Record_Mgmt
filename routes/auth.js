@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const config = require('../config/config');
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient(config.redis);
 
 const unauthorisedMsg = {
 	code: 401,

@@ -9,11 +9,6 @@ const createdResp = {
 	message: "Added new patient"
 };
 
-const successResp = {
-	code: 200,
-	message: "Success!" 
-};
-
 const notFoundResp = {
 	code: 404,
 	message: "Not found"
@@ -37,9 +32,16 @@ baseEndPoint.get((req, res) => {
 			console.log("Failed to get patients");
 			return res.status(503).send(serviceUnavailableResp);
 		}
+		if(patients.length === 0) {
+			console.log("Empty patient list");
+			return res.status(204).send();
+		}
 		console.log("Got patient list");
-		successResp.data = patients;
-		return res.status(200).send(successResp);
+		return res.status(200).send({
+			code: 200,
+			message: "OK",
+			data: patients
+		});
 	});
 });
 	
@@ -49,7 +51,8 @@ baseEndPoint.post((req, res) => {
 		age,
 		address,
 		contact,
-		next_appt,
+		next_appt_date,
+		next_appt_time,
 		medication,
 		medical_condition,
 		details
@@ -62,7 +65,8 @@ baseEndPoint.post((req, res) => {
 		age,
 		address,
 		contact,
-		next_appt: new Date(next_appt),
+		next_appt_date,
+		next_appt_time,
 		first_appt: nowGMT,
 		medication,
 		medical_condition,
@@ -95,8 +99,11 @@ idEndPoint.get((req, res) => {
 			return res.status(404).send(notFoundResp);
 		}
 		console.log("Got patient with id " + req.params.pId);
-		successResp.data = patient;
-		return res.status(200).send(successResp);
+		return res.status(200).send({
+			code: 200,
+			message: "OK",
+			data: patient
+		});
 	});
 });
 
@@ -106,14 +113,17 @@ idEndPoint.put((req, res) => {
 		age,
 		address,
 		contact,
-		next_appt,
+		next_appt_date,
+		next_appt_time,
 		medication,
 		medical_condition,
 		details
 	} = req.body;
 	Patient.findOneAndUpdate({ id: req.params.pId }, 
-	{name, age, address, contact, next_appt, medication, medical_condition, details, 
-	updated_at: new Date()	
+	{
+		name, age, address, contact, next_appt_date,
+		next_appt_time, medication, medical_condition, details, 
+		updated_at: new Date()	
 	},
 	(err, patient) => {
 		if(err) {
@@ -125,7 +135,10 @@ idEndPoint.put((req, res) => {
 			return res.status(404).send(notFoundResp);
 		}
 		console.log("Updated patient with id " + req.params.pId);
-		return res.status(200).send(successResp);
+		return res.status(200).send({
+			code: 200,
+			message: "OK"
+		});
 	});
 });
 
@@ -136,7 +149,10 @@ idEndPoint.delete((req, res) => {
 			return res.status(503).send(serviceUnavailableResp);
 		}
 		console.log("Deleted patient with id " + req.params.pId);
-		return res.status(200).send(successResp);
+		return res.status(200).send({
+			code: 200,
+			message: "OK"
+		});
 	});
 });
 
