@@ -48,7 +48,7 @@ baseEndPoint.get((req, res) => {
 baseEndPoint.post((req, res) => {
 	let {
 		name,
-		age,
+		birthdate,
 		address,
 		contact,
 		next_appt_date,
@@ -62,7 +62,7 @@ baseEndPoint.post((req, res) => {
 	let newPatient = new Patient({
 		id: uuid.v4().split("-").join(""),
 		name,
-		age,
+		birthdate,
 		address,
 		contact,
 		next_appt_date,
@@ -110,7 +110,7 @@ idEndPoint.get((req, res) => {
 idEndPoint.put((req, res) => {
 	let {
 		name,
-		age,
+		birthdate,
 		address,
 		contact,
 		next_appt_date,
@@ -121,7 +121,7 @@ idEndPoint.put((req, res) => {
 	} = req.body;
 	Patient.findOneAndUpdate({ id: req.params.pId }, 
 	{
-		name, age, address, contact, next_appt_date,
+		name, birthdate, address, contact, next_appt_date,
 		next_appt_time, medication, medical_condition, details, 
 		updated_at: new Date()	
 	},

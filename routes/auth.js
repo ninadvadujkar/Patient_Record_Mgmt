@@ -19,7 +19,9 @@ const successMsg = {
 };
 
 router.post('/login', (req, res) => {
+	console.log(req.body);
 	if(!req.body.username || !req.body.passwd) {
+		console.log("HERE!!!!");
 		return res.status(401).send(unauthorisedMsg);
 	}
 	User.findOne({ username: req.body.username }, (err, user) => {

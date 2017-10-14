@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let patientSchema = new Schema({
 	id: String,
 	name: String,
-	age: String,	
+	birthdate: String,	
 	address: String,
 	contact: String,
 	next_appt_date: String,
